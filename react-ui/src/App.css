@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -20,6 +20,27 @@
 
 .App a {
   color: #f60;
+} */
+h1{
+  text-align: center;
+  font-size: 3em;
+}
+.form-location{
+  margin: 0 auto;
+  padding: 2% 4%;
+  max-width: 30%;
+  box-shadow: 0 0 4px rgba(0,0,0, .5),
+  0 0 10px rgba(0,0,0, .8);
+  margin-bottom: 3%;
+}
+
+.weather-table{
+  margin: 0 auto;
+  max-width: 70%;
+}
+
+.text-result{
+  color: blue;
 }
 
 @keyframes App-logo-spin {
