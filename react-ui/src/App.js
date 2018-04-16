@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button } from 'antd';
+import 'antd/dist/antd.css';
+import { Form, Icon, Input, Button } from 'antd';
+const FormItem = Form.Item;
 
+function hasErrors(fieldsError) {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: null,
-      fetching: true,
       location_request: null,
       address: null,
       current_temp: 0,
@@ -18,24 +21,16 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('/api')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`status ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(json => {
-        this.setState({
-          message: json.message,
-          fetching: false
-        });
-      }).catch(e => {
-        this.setState({
-          message: `API call failed: ${e}`,
-          fetching: false
-        });
-      })
+    this.props.form.validateFields();
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
   }
 
   handleClick = (e) => {
@@ -50,11 +45,6 @@ class App extends Component {
           address: json.address,
           current_temp: json.temp,
           next_weather_list: json.nextWeather,
-        }, () => {
-          console.log(this.state.next_weather_list);
-          console.log(this.state.address);
-          console.log(this.state.current_temp);
-          
         })
       })
       .catch(e => console.log(e));
@@ -67,29 +57,50 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        
+    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
 
-        
-        <form onSubmit={this.handleClick}>
-            
-            <div className="form-group">
-                <label>Location</label>
-                <input type="text" className="form-control" placeholder="ZIP Code; City; Province; Address..." onChange={this.handleChangeInput} />
-            </div>
-        
-            <Button icon="search">Submit</Button>
-            
-        </form>
-        
-      </div>
-    );
+    // Only show error after a field is touched.
+    const userNameError = isFieldTouched('userName') && getFieldError('userName');
+    const passwordError = isFieldTouched('password') && getFieldError('password');
+    return (
+        <div>
+          <Form layout="inline" onSubmit={this.handleSubmit}>
+            <FormItem
+              validateStatus={userNameError ? 'error' : ''}
+              help={userNameError || ''}
+            >
+              {getFieldDecorator('userName', {
+                rules: [{ required: true, message: 'Please input your username!' }],
+              })(
+                <Input prefix={<Icon type="place" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+              )}
+            </FormItem>
+            <FormItem>
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={hasErrors(getFieldsError())}
+              >
+                Log in
+              </Button>
+            </FormItem>
+          </Form>
+          
+          <form onSubmit={this.handleClick}>
+              
+              <div className="form-group">
+                  <label>Location</label>
+                  <input type="text" className="form-control" placeholder="ZIP Code; City; Province; Address..." onChange={this.handleChangeInput} />
+              </div>
+          
+              <Button icon="search">Submit</Button>
+              
+          </form>
+        </div>
+      );
   }
 }
 
-export default App;
+const WrappedApp = Form.create()(App);
+
+export default WrappedApp;
