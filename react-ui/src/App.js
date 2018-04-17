@@ -99,7 +99,7 @@ class App extends Component {
         key: index,
         ...wh,
         time: new Date(Number(wh.time*1000)).toLocaleString(),
-        icon: <Skycons className="icon" color="black" icon={wh.icon.toUpperCase().replace(/-/g,"_")} />
+        icon: <Skycons className="icon" color="#4286f4" icon={wh.icon.toUpperCase().replace(/-/g,"_")} />
       })
     });
     return (
