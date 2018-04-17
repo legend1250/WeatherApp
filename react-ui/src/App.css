@@ -42,6 +42,9 @@ h1{
 .text-result{
   color: blue;
 }
+.text-error{
+  color: red;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

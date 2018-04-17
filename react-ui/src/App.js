@@ -44,8 +44,6 @@ class App extends Component {
               address: json.address,
               current_temp: json.temp,
               next_weather_list: json.nextWeather,
-            }, () => {
-              console.log(this.state.next_weather_list);
             })
           })
           .catch(e => console.log(e));
@@ -127,8 +125,8 @@ class App extends Component {
                 Search
               </Button>
             </FormItem>
-            {this.state.address ? <FormItem className="text-result">{this.state.address}</FormItem> : null}
-            {this.state.current_temp ? <FormItem className="text-result">Current temp (feels like): {this.state.current_temp}</FormItem> : null}
+            {!this.state.error && this.state.address ? <FormItem className="text-result">{this.state.address}</FormItem> : null}
+            {!this.state.error && this.state.current_temp ? <FormItem className="text-result">Current temp (feels like): {this.state.current_temp}</FormItem> : null}
             {this.state.error ? <FormItem className="text-error">{this.state.error_msg}</FormItem> : null}
           </Form>
           </div>
