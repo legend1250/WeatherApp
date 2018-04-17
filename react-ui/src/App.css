@@ -51,6 +51,45 @@ h1{
   max-height: 75px;
 }
 
+@media only screen and (max-width: 1750px) {
+  .form-location{
+    max-width: 37%;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .form-location{
+    max-width: 40%;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .form-location{
+    max-width: 45%;
+  }
+  .weather-table{
+    max-width: 85%;
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .form-location{
+    max-width: 65%;
+  }
+  .weather-table{
+    max-width: 95%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .form-location{
+    max-width: 80%;
+  }
+  .weather-table{
+    max-width: 95%;
+  }
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
