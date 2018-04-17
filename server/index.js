@@ -94,6 +94,7 @@ if (cluster.isMaster) {
   
     res.send({
       error: false,
+      error_msg: 'Successfully',
       address: formatted_address,
       temp: current_temp,
       nextWeather: nextWeather

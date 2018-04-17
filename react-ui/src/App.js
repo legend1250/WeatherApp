@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
 import 'antd/dist/antd.css';
+import './App.css';
 import { Form, Icon, Input, Button, Table } from 'antd';
 const FormItem = Form.Item;
 // import Skycons from './dist/ReactSkycons'
@@ -15,6 +15,8 @@ class App extends Component {
     super(props);
     this.state = {
       location_request: null,
+      error: null,
+      error_msg: null,
       address: null,
       current_temp: 0,
       next_weather_list: null,
@@ -37,6 +39,8 @@ class App extends Component {
           .then(res => res.json())
           .then(json => {
             this.setState({
+              error: json.error,
+              error_msg: json.error_msg,
               address: json.address,
               current_temp: json.temp,
               next_weather_list: json.nextWeather,
@@ -124,7 +128,8 @@ class App extends Component {
               </Button>
             </FormItem>
             {this.state.address ? <FormItem className="text-result">{this.state.address}</FormItem> : null}
-            {this.state.current_temp ? <FormItem>Current temp (feels like): {this.state.current_temp}</FormItem> : null}
+            {this.state.current_temp ? <FormItem className="text-result">Current temp (feels like): {this.state.current_temp}</FormItem> : null}
+            {this.state.error ? <FormItem className="text-error">{this.state.error_msg}</FormItem> : null}
           </Form>
           </div>
           {/* <form onSubmit={this.handleClick}>
@@ -136,7 +141,7 @@ class App extends Component {
           </form> */}
           <div>
             
-            {this.state.next_weather_list ? <Table className="weather-table" columns={columns} dataSource={data} size="middle" bordered /> : null}
+            {!this.state.error && this.state.next_weather_list ? <Table className="weather-table" columns={columns} dataSource={data} size="middle" bordered /> : null}
           </div>
           <div>
           {/* <Skycons color='white' icon='WIND' /> */}
