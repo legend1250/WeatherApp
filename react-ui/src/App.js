@@ -3,8 +3,8 @@ import logo from './logo.svg';
 import 'antd/dist/antd.css';
 import './App.css';
 import { Form, Icon, Input, Button, Table } from 'antd';
+import Skycons from 'react-skycons';
 const FormItem = Form.Item;
-// import Skycons from './dist/ReactSkycons'
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -20,6 +20,7 @@ class App extends Component {
       address: null,
       current_temp: 0,
       next_weather_list: null,
+      btn_loading: false
     };
   }
 
@@ -29,7 +30,9 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    
+    this.setState({
+      btn_loading: true
+    })
     this.props.form.validateFields((err, values) => {
       if (!err) {
         
@@ -44,6 +47,7 @@ class App extends Component {
               address: json.address,
               current_temp: json.temp,
               next_weather_list: json.nextWeather,
+              btn_loading: false
             })
           })
           .catch(e => console.log(e));
@@ -95,11 +99,13 @@ class App extends Component {
         key: index,
         ...wh,
         time: new Date(Number(wh.time*1000)).toLocaleString(),
+        icon: <Skycons className="icon" color="black" icon={wh.icon.toUpperCase().replace(/-/g,"_")} />
       })
     });
     return (
         <div>
           <h1>Weather App</h1>
+          
           <div className="form-location">
           <Form onSubmit={this.handleSubmit}>
             <label>Location</label>
@@ -120,6 +126,7 @@ class App extends Component {
                 icon="search"
                 size="large"
                 style={btn_style}
+                loading={this.state.btn_loading}
                 disabled={hasErrors(getFieldsError())}
               >
                 Search

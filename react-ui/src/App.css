@@ -46,6 +46,11 @@ h1{
   color: red;
 }
 
+.icon{
+  max-width: 128px;
+  max-height: 64px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
